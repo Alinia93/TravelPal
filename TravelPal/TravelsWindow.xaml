@@ -31,7 +31,7 @@
         <Label Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Content="Your travels:" HorizontalContentAlignment="Center" VerticalContentAlignment="Top" FontSize="20"  Margin="5,0,0,0"/>
         <TextBlock Name="txtBWelcomeUser" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalAlignment="Center" FontSize="20" Margin="90,10" Text="Welcome User" FontFamily="Tw Cen MT Condensed"/>
 
-        <Button Name="btnUserDetails" Grid.Column="1" Grid.Row="2" Margin="20,10" Content="User Details"/>
+        <Button Name="btnUserDetails" Grid.Column="1" Grid.Row="2" Margin="20,10" Content="User Details" Click="btnUserDetails_Click"/>
         <Button Name="btnInfoAboutTravel" Grid.Column="2" Grid.Row="6" Content="Info about travel" Margin="50,10,10,10" Click="btnInfoAboutTravel_Click"/>
         <Button Name="btnRemoveTravel" Grid.Column="3" Grid.Row="6" Content="Remove travel" Margin="7,10,50,10"/>
         <Button Name="btnInfoAboutTravelPal" Grid.Column="1" Grid.Row="1" Margin="20,10" Content="Info about TravelPal" />

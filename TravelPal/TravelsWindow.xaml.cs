@@ -25,5 +25,12 @@ namespace TravelPal
             addTravelWindow.Show();
             Close();
         }
+
+        private void btnUserDetails_Click(object sender, RoutedEventArgs e)
+        {
+            UserDetailsWindow userDetailsWindow = new();
+            userDetailsWindow.Show();
+            Close();
+        }
     }
 }
