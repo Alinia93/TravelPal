@@ -37,7 +37,7 @@
         <TextBox Name="txtBUserName" Grid.Column="3" Grid.Row="3"  TextWrapping="Wrap" Margin="0" FontSize="25"/>
         <PasswordBox Name="txtBPassword" Grid.Column="3" Grid.Row="4" FontSize="25"  />
 
-        <Button Name="btnSignIn" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" Content="Sign in" Margin="70,20,50,20" FontSize="25"  FontWeight="Bold" Background="LightBlue" Foreground="White" FontFamily="Arial"/>
+        <Button Name="btnSignIn" Grid.Column="2" Grid.Row="5" Grid.ColumnSpan="2" Grid.RowSpan="2" Content="Sign in" Margin="70,20,50,20" FontSize="25"  FontWeight="Bold" Background="LightBlue" Foreground="White" FontFamily="Arial" Click="btnSignIn_Click"/>
 
         <Border Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Height="1" Margin="0,0,0,40" BorderBrush="Black" BorderThickness="2"/>
 
