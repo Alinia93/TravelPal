@@ -32,14 +32,16 @@
         <TextBlock Name="txtBWelcomeUser" Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2"  HorizontalAlignment="Center" FontSize="20" Margin="90,10" Text="Welcome User" FontFamily="Tw Cen MT Condensed"/>
 
         <Button Name="btnUserDetails" Grid.Column="1" Grid.Row="2" Margin="20,10" Content="User Details"/>
-        <Button Name="btnInfoAboutTravel" Grid.Column="2" Grid.Row="6" Content="Info about travel" Margin="50,10,10,10"/>
+        <Button Name="btnInfoAboutTravel" Grid.Column="2" Grid.Row="6" Content="Info about travel" Margin="50,10,10,10" Click="btnInfoAboutTravel_Click"/>
         <Button Name="btnRemoveTravel" Grid.Column="3" Grid.Row="6" Content="Remove travel" Margin="7,10,50,10"/>
         <Button Name="btnInfoAboutTravelPal" Grid.Column="1" Grid.Row="1" Margin="20,10" Content="Info about TravelPal" />
-        <Button Name="btnAddTravel" Grid.Column="4" Grid.Row="4" Grid.RowSpan="2" Background="LightBlue" Margin="20,10" Content="Add travel" FontSize="20" Foreground="White"/>
-        <Button Name="btnSignOut" Grid.Column="4" Grid.Row="7"  Content="Go back" Margin="50,10" Background="LightGray"/>
+        <Button Name="btnAddTravel" Grid.Column="1" Grid.Row="4" Grid.RowSpan="2" Background="LightBlue" Margin="20,10" Content="Add travel" FontSize="20" Foreground="White"/>
+        <Button Name="btnSignOut" Grid.Column="4" Grid.Row="6"  Content="Sign out" Margin="50,10" Background="LightGray"/>
+       
+        
         <ListBox Name="lstTravels" Grid.Column="2" Grid.Row="3" Grid.ColumnSpan="2" Margin="50,30,50,0" Grid.RowSpan="3" />
 
-        <Border Grid.Column="1" Grid.Row="1" BorderBrush="Black" BorderThickness="2" Width="1" Margin="180,0,0,0" Grid.RowSpan="6"/>
+        
         <Border Grid.Column="3" Grid.Row="1" BorderBrush="Black" BorderThickness="2" Width="1" Margin="180,0,0,0" Grid.RowSpan="6"/>
 
     </Grid>
