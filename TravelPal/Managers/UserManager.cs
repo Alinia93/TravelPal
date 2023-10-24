@@ -5,7 +5,7 @@ namespace TravelPal.Managers
 {
     class UserManager
     {
-        public List<IUser> users { get; set; }
+        public static List<IUser> users = new() { new Admin}
         public IUser SignedInUser { get; set; }
 
 
