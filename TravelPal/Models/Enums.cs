@@ -2,8 +2,8 @@
 {
     public enum Country
     {
-        Afghanistan
-Albania,
+        Afghanistan,
+
         Algeria,
         Andorra,
         Angola,
@@ -144,7 +144,7 @@ Albania,
         Senegal,
 
         Seychelles,
-        Sierra Leone,
+        SierraLeone,
         Singapore,
 
         SolomonIslands,
@@ -182,11 +182,58 @@ Albania,
         Zambia,
         Zimbabwe,
 
+        Albania,
+        Austria,
+        Belgium,
+        Bosnia,
+        Bulgaria,
+
+        Croatia,
+        CzechRepublic,
+        Cyprus,
+        Denmark,
+        Estonia,
+        Finland,
+        France,
+        Germany,
+        Greece,
+        Hungary,
+        Iceland,
+        Ireland,
+        Italy,
+        Kosovo,
+        Latvia,
+        Liechtenstein,
+        Lithuania,
+        Luxembourg,
+        Malta,
+        Moldova,
+        Monaco,
+        Montenegro,
+        Netherlands,
+        NorthMacedonia,
+        Norway,
+        Poland,
+        Portugal,
+        Romania,
+        Russia,
+        SanMarino,
+        Serbia,
+        Slovakia,
+        Slovenia,
+        Spain,
+        Sweden,
+        Switzerland,
+        Ukraine,
+        UnitedKingdom,
+        VaticanCity,
+
     }
 
 
     public enum EuropeanCountry
     {
+        Albania,
         Austria,
         Belgium,
         Bosnia,

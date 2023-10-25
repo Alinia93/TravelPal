@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using TravelPal.Managers;
 
 namespace TravelPal
 {
@@ -17,13 +18,27 @@ namespace TravelPal
             RegisterWindow registerWindow = new();
             registerWindow.Show();
             Close();
+
+
         }
 
         private void btnSignIn_Click(object sender, RoutedEventArgs e)
         {
-            TravelsWindow travelsWindow = new();
-            travelsWindow.Show();
-            Close();
+
+            string userName = txtBUserName.Text;
+            string password = txtBPassword.Password;
+
+            bool isUserSignedIn = UserManager.SignInUser(userName, password);
+            if (isUserSignedIn)
+            {
+                TravelsWindow travelsWindow = new();
+                travelsWindow.Show();
+                Close();
+            }
+            else
+            {
+                MessageBox.Show("User name or password is not correct!", "Warning");
+            }
         }
     }
 }

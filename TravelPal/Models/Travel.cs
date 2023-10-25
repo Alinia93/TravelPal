@@ -11,9 +11,16 @@ namespace TravelPal.Models
         public List<PackingListItem> PackingList { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int TravelsDays { get; set; }
-        public Travel()
+        public int TravelDays { get; set; }
+        public Travel(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays)
         {
+            Destination = destination;
+            Countries = country;
+            Travelers = travelers;
+
+            StartDate = startDate;
+            EndDate = endDate;
+            TravelDays = travelDays;
 
         }
 
