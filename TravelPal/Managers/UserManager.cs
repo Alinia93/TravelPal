@@ -15,11 +15,20 @@ namespace TravelPal.Managers
 
         public static bool AddUser(IUser user)
         {
+
+            bool IsAddUser = true;
             if (ValidateUserName(user.UserName))
             {
                 User newUser = new(user.UserName, user.Password, user.Location);
+                IsAddUser = true;
+                users.Add(newUser);
             }
-            return false;
+            else
+            {
+                IsAddUser = false;
+            }
+            return IsAddUser;
+
         }
 
         public static void RemoveUser(IUser iUser)

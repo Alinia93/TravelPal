@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Controls;
+using TravelPal.Managers;
 using TravelPal.Models;
 
 namespace TravelPal
@@ -16,10 +16,56 @@ namespace TravelPal
 
             foreach (var country in Enum.GetValues(typeof(Country)))
             {
-                ComboBoxItem item = new();
-                item.Content = country;
-                item.Tag = country;
-                cmbBCountry.Items.Add(item);
+
+
+                cmbBCountry.Items.Add(country);
+            }
+        }
+
+        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            string userName = txtBUserName.Text;
+            string passWord = txtBPassword.Password;
+
+            if (userName != "" && passWord != "" && cmbBCountry.SelectedIndex != -1)
+            {
+                if (userName.Length > 3)
+                {
+
+
+                    Country country = (Country)cmbBCountry.SelectedItem;
+
+                    User newUser = new(userName, passWord, country);
+
+                    bool isValidUserName = UserManager.AddUser(newUser);
+
+                    if (isValidUserName)
+                    {
+                        MessageBox.Show("Registration succeded!");
+                        MainWindow mainWindow = new();
+                        mainWindow.Show();
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show("The user name is occupied. Try again!", "Warning");
+                        txtBUserName.Text = "";
+                        txtBPassword.Password = "";
+
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Your user name have to be more than 3 signs");
+                }
+            }
+            else
+            {
+                MessageBox.Show("You have to fill in user name, password and your location!");
+
+
             }
         }
     }
