@@ -38,6 +38,8 @@ namespace TravelPal
             else
             {
                 MessageBox.Show("User name or password is not correct!", "Warning");
+                txtBPassword.Password = "";
+                txtBUserName.Text = "";
             }
         }
     }

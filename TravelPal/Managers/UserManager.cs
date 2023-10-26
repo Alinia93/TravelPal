@@ -6,8 +6,8 @@ namespace TravelPal.Managers
     public static class UserManager
     {
         public static List<IUser> users = new()
-        { new Admin("admin", "password", Country.Sweden),
-            new User("user", "password", Country.Syria) {travels=new List<Travel> { new Travel("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12), 5), new Travel("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),7) } }};
+        { new Admin("admin","password",  Country.Sweden),
+            new User("user", "password", Country.Syria) {travels=new List<Travel> { new Vacation("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12), 5,true), new WorkTrip("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),7, "Meeting a client from Berlin at Las Ramblas 54") } }};
         public static IUser SignedInUser
         {
             get; set;
@@ -63,21 +63,18 @@ namespace TravelPal.Managers
         public static bool SignInUser(string userName, string password)
         {
 
-            bool isSignInValid = true;
 
-            foreach (IUser user in users)
+            foreach (IUser iUser in users)
             {
-                if (userName == user.UserName && password == user.Password)
+                if (userName == iUser.UserName && password == iUser.Password)
                 {
-                    SignedInUser = user;
-                    isSignInValid = true;
+                    SignedInUser = iUser;
+                    return true;
                 }
-                else
-                {
-                    isSignInValid = false;
-                }
+
+
             }
-            return isSignInValid;
+            return false;
         }
     }
 }

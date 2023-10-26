@@ -5,17 +5,19 @@ namespace TravelPal.Models
 {
     public class Travel
     {
+
+        int x;
         public string Destination { get; set; }
-        public Country Countries { get; set; }
+        public Country Country { get; set; }
         public int Travelers { get; set; }
         public List<PackingListItem> PackingList { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int TravelDays { get; set; }
+        public int TravelDays { set { x = CalculateTravelDays(); } get { return x; } }
         public Travel(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays)
         {
             Destination = destination;
-            Countries = country;
+            Country = country;
             Travelers = travelers;
 
             StartDate = startDate;
@@ -31,7 +33,8 @@ namespace TravelPal.Models
 
         private int CalculateTravelDays()
         {
-            return 0;
+            int number = Convert.ToInt32((EndDate - StartDate).TotalDays);
+            return number;
         }
     }
 }
