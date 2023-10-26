@@ -7,7 +7,7 @@ namespace TravelPal.Managers
     {
         public static List<IUser> users = new()
         { new Admin("admin","password",  Country.Sweden),
-            new User("user", "password", Country.Syria) {travels=new List<Travel> { new Vacation("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12), 5,true), new WorkTrip("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),7, "Meeting a client from Berlin at Las Ramblas 54") } }};
+            new User("user", "password", Country.Syria) {travels=new List<Travel> { new Vacation("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12),0,true), new WorkTrip("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),0, "Meeting a client from Berlin at Las Ramblas 54") } }};
         public static IUser SignedInUser
         {
             get; set;

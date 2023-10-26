@@ -18,7 +18,8 @@ namespace TravelPal
 
             txtBCity.Text = travel.Destination;
             txtBCountry.Text = travel.Country.ToString();
-            txtBDate.Text = $"{travel.StartDate.ToShortDateString()}-{travel.EndDate.ToShortDateString()}";
+            txtBStartDate.Text = travel.StartDate.ToShortDateString();
+            txtBEndDate.Text = travel.EndDate.ToShortDateString();
             txtBNumberOfTravelers.Text = travel.Travelers.ToString();
             txtBTravelDays.Text = $" Days: {travel.TravelDays.ToString()}";
 
@@ -63,11 +64,12 @@ namespace TravelPal
             MessageBox.Show("You can now edit your trip. Then press save");
             txtBCountry.IsReadOnly = false;
             txtBCity.IsReadOnly = false;
-            txtBDate.IsReadOnly = false;
-            txtBTravelDays.IsReadOnly = false;
+            txtBStartDate.IsReadOnly = false;
+            txtBEndDate.IsReadOnly = false;
+
             txtBNumberOfTravelers.IsReadOnly = false;
             txtBMeetingDetailsOrAllInclusive.IsReadOnly = false;
-            txtBTypeOfTravel.IsReadOnly = false;
+
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -89,6 +91,56 @@ namespace TravelPal
             {
                 MessageBox.Show("We can't find that country. Are you sure you spelled it right? Try again", "Warning");
             }
+
+            TravelManager.CurrentTravel.Destination = txtBCity.Text;
+            TravelManager.CurrentTravel.StartDate = DateTime.Parse(txtBStartDate.Text);
+            TravelManager.CurrentTravel.EndDate = DateTime.Parse(txtBEndDate.Text);
+
+            TravelManager.CurrentTravel.Travelers = Convert.ToInt32(txtBNumberOfTravelers.Text);
+
+            if (TravelManager.CurrentTravel.GetType() == typeof(Vacation))
+            {
+                Vacation vacation = (Vacation)TravelManager.CurrentTravel;
+
+                if (txtBMeetingDetailsOrAllInclusive.Text == "yes" || txtBMeetingDetailsOrAllInclusive.Text == "Yes")
+                {
+                    vacation.AllInclusive = true;
+                    MessageBox.Show("Your edits are saved.");
+                    TravelsWindow travelsWindow = new();
+                    travelsWindow.Show();
+                    Close();
+
+                }
+                else if (txtBMeetingDetailsOrAllInclusive.Text == "no" || txtBMeetingDetailsOrAllInclusive.Text == "No")
+                {
+                    vacation.AllInclusive = false;
+                    MessageBox.Show("Your edits are saved.");
+                    TravelsWindow travelsWindow = new();
+                    travelsWindow.Show();
+                    Close();
+
+                }
+                else
+                {
+                    MessageBox.Show("You have to write \"Yes\" or \"No\" on the All inclusive Window");
+                }
+
+            }
+            else if (TravelManager.CurrentTravel.GetType() == typeof(WorkTrip))
+            {
+                WorkTrip workTrip = (WorkTrip)TravelManager.CurrentTravel;
+
+                workTrip.MeetingDetails = txtBMeetingDetailsOrAllInclusive.Text;
+
+                MessageBox.Show("Your edits are saved.");
+                TravelsWindow travelsWindow = new();
+                travelsWindow.Show();
+                Close();
+
+            }
+
+
+
 
 
         }
