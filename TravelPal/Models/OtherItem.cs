@@ -1,13 +1,14 @@
 ﻿namespace TravelPal.Models
 {
-    class OtherItem : PackingListItem
+    public class OtherItem : PackingListItem
     {
         public string Name { get; set; }
 
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
 
-        public OtherItem(int quantity)
+        public OtherItem(string name, int quantity)
         {
+            Name = name;
             Quantity = quantity;
         }
 

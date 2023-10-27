@@ -43,33 +43,33 @@
         <Label Grid.Column="1" Grid.Row="7"   Content="End date:" HorizontalAlignment="Right" FontSize="15" VerticalContentAlignment="Center"/>
         <Label Grid.Column="1" Grid.Row="8"  Content="Number of passengers:" HorizontalAlignment="Left" FontSize="9" VerticalContentAlignment="Center"/>
         <Label Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="2"   Content="Work trip/Vaccation:" HorizontalAlignment="Left" FontSize="10" VerticalContentAlignment="Center"/>
-        
+
         <Label Name="txtAllInclusiveOrMeetingDetails" Grid.Column="1" Grid.Row="10" Content="" HorizontalAlignment="Right" FontSize="12" VerticalContentAlignment="Center"/>
         <TextBlock Grid.Column="4" Grid.Row="3" Text="Add packing list" Grid.ColumnSpan="3" FontSize="25" HorizontalAlignment="Center" FontFamily="Arial" FontWeight="Bold"/>
         <Label Grid.Column="4" Grid.Row="4" Content="Item to pack:" HorizontalAlignment="Right" FontSize="15"/>
-        <Label Grid.Column="4" Grid.Row="5" Content="Quantity:" HorizontalAlignment="Right" FontSize="15"/>
-        <Label Grid.Column="4" Grid.Row="6" Content="Travel document?" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12"/>
-        <Label Name="txtRequired" Grid.Column="4" Grid.Row="7" Content="Required?" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Label Name="txtQuantity" Grid.Column="4" Grid.Row="6" Content="Quantity:" HorizontalAlignment="Right" />
+        <Label Grid.Column="4" Grid.Row="5" Content="Travel document?" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12"/>
+        <Label Name="txtRequired" Grid.Column="4" Grid.Row="6" Content="Required?" HorizontalAlignment="Right" VerticalAlignment="Center" Visibility="Hidden"/>
         <Label Grid.Column="5" Grid.Row="8" Content="Packing list" HorizontalAlignment="Center" FontWeight="Bold"/>
 
-        <ComboBox Name="cmbBCountry" Grid.Column="2" Grid.Row="4" Margin="0,5,0,2"/>
+        <ComboBox Name="cmbBCountry" Grid.Column="2" Grid.Row="4" Margin="0,5,0,2" SelectionChanged="cmbBCountry_SelectionChanged"/>
         <ComboBox Name="cmbBWorkTripOrVaccation" Grid.Column="2" Grid.Row="9" Margin="0,5,0,2" SelectionChanged="cmbBWorkTripOrVaccation_SelectionChanged"/>
 
 
         <TextBox Name="txtBCity" Grid.Column="2" Grid.Row="5" Margin="0,5,0,0"/>
         <TextBox Name="txtBStartDate" Grid.Column="2" Grid.Row="6" Margin="0,5,0,0"/>
         <TextBox Name="txtBEndDate" Grid.Column="2" Grid.Row="7" Margin="0,5,0,0"/>
-       <TextBox Name="txtBNumberOfPassenger" Grid.Column="2" Grid.Row="8" Margin="0,5,0,0"/>
+        <TextBox Name="txtBNumberOfPassenger" Grid.Column="2" Grid.Row="8" Margin="0,5,0,0"/>
         <TextBox Name="txtBMeetingDetails" FontSize="12" Grid.Column="2" Grid.Row="10" Grid.RowSpan="3" Visibility="Hidden"/>
         <TextBox Name="txtBItemToPack" Grid.Column="5" Grid.Row="4" Margin="0,5,0,0"/>
-        <TextBox Name="txtBQuantity" Grid.Column="5" Grid.Row="5" Margin="0,5,0,0"/>
+        <TextBox Name="txtBQuantity" Grid.Column="5" Grid.Row="6" Margin="0,5,0,7"/>
 
         <CheckBox Name="checkBAllInclusive" Grid.Column="2" Grid.Row="10"  VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Hidden" />
-        <CheckBox Name="checkBTravelDocuemnt" Grid.Column="5" Grid.Row="6" VerticalAlignment="Center"/>
-        <CheckBox Name="checkBRequired" Grid.Column="5" Grid.Row="7" VerticalAlignment="Center"/>
+        <CheckBox Name="checkBTravelDocuemnt" Grid.Column="4" Grid.Row="5" VerticalAlignment="Center" Grid.ColumnSpan="3" HorizontalAlignment="Right" Margin="0,0,108,0" Width="109" Checked="checkBTravelDocuemnt_Checked" Unchecked="checkBTravelDocuemnt_Unchecked"/>
+        <CheckBox Name="checkBRequired" Grid.Column="5" Grid.Row="6" VerticalAlignment="Center" Visibility="Hidden"  />
 
         <Button Name="btnSave" Grid.Column="7" Grid.Row="11" Grid.ColumnSpan="1" Grid.RowSpan="1" Background="LightBlue" Content="Save travel" Foreground="White" FontSize="15" Click="btnSave_Click"/>
-
+        <Button Name ="btnAddItem" Grid.Column="5" Grid.Row="7" Content="Add Item" Background="LightBlue" FontFamily="Arial" Foreground="White" Click="btnAddItem_Click"/>
         <Border Grid.Column="6" Grid.Row="1" Width="1" BorderBrush="Black" BorderThickness="1" Margin="80,0,0,0" Grid.RowSpan="12"/>
 
         <ListBox Name="lstPackingList" Grid.Column="4" Grid.Row="9" Grid.ColumnSpan="3" Grid.RowSpan="4" Margin="50,0" Background="LightGray"/>

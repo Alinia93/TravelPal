@@ -41,6 +41,6 @@
 
         <Button Name="btnRegister" Grid.Column="2" Grid.Row="6" Grid.ColumnSpan="2" Margin="100,0,100,15" Content="REGISTER" Background="LightBlue" Click="btnRegister_Click"/>
 
-        <Button Name="btnGoBack" Grid.Column="4" Grid.Row="7" Content="Go back" Margin="50,10" Background="LightGray"/>
+        <Button Name="btnGoBack" Grid.Column="4" Grid.Row="7" Content="Go back" Margin="50,10" Background="LightGray" Click="btnGoBack_Click"/>
     </Grid>
 </Window>
