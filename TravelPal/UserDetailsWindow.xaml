@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
 
         <Label Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="2" FontFamily="Arial" Content="TRAVELPAL" FontSize="60" HorizontalAlignment="Center" FontWeight="Bold" Foreground="MediumSlateBlue" />
-        <Label Grid.Row="1" Grid.Column="1" Content="USER" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Arial"/>
+        <Label Name="txtUserName" Grid.Row="1" Grid.Column="1"  HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontFamily="Arial"/>
         <Label Grid.Column="3" Grid.Row="2" Content="User details:" VerticalContentAlignment="Bottom" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="20"/>
         <Label Grid.Column="2" Grid.Row="3" Content="New user name:" HorizontalAlignment="Right" FontSize="20"/>
         <Label Grid.Column="2" Grid.Row="4" Content="New password:" HorizontalAlignment="Right" FontSize="20"/>
@@ -43,10 +43,9 @@
 
         <ComboBox Name="cmbBChangeCountry" Grid.Column="3" Grid.Row="6" Margin="0,5,5,15"/>
 
-        <Button Name="btnSave" Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Margin="40,5,5,5" Content="Save" FontSize="20" FontFamily="Arial" Foreground="White" Background="LightBlue"/>
-        <Button Name="btnGoBack" Grid.Column="5" Grid.Row="7" Content="Go back" FontSize="15"/>
-
-
+        <Button Name="btnSave" Grid.Column="2" Grid.Row="7" Grid.ColumnSpan="2" Margin="40,5,5,5" Content="Save" FontSize="20" FontFamily="Arial" Foreground="White" Background="LightBlue" Click="btnSave_Click"/>
+        <Button Name="btnGoBack" Grid.Column="5" Grid.Row="7" Content="Go back" FontSize="15" Click="btnGoBack_Click"/>
+        
         <Border Grid.Column="4" Grid.Row="2" Width="1" BorderThickness="2" BorderBrush="Black" Margin="100,0,0,0" Grid.RowSpan="6" />
 
     </Grid>

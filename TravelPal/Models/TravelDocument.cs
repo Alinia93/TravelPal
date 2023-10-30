@@ -9,7 +9,7 @@
         public TravelDocument(string name, bool required)
         {
             Name = name;
-            required = Required;
+            Required = required;
         }
 
         public string GetInfo()

@@ -5,9 +5,18 @@ namespace TravelPal.Managers
 {
     public static class UserManager
     {
+
+        //Lista med alla IUser 
         public static List<IUser> users = new()
         { new Admin("admin","password",  Country.Sweden),
-            new User("user", "password", Country.Sweden) {travels=new List<Travel> { new Vacation("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12),0,true), new WorkTrip("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),0, "Meeting a client from Berlin at Las Ramblas 54") } }};
+            new User("user", "password", Country.Sweden)
+            {travels=new List<Travel> { new Vacation("Madrid", Country.Spain, 2, new System.DateTime(2023, 01, 05), new System.DateTime(2023, 01, 12),0,
+                new List<PackingListItem> { new OtherItem("Shampoo",2)},true),
+                new WorkTrip("Paris",Country.France,1, new System.DateTime(2019,04,01),new System.DateTime(2019,04,07),0,
+                new List<PackingListItem> { new TravelDocument("Passport",true)}, "Meeting a client from Berlin at Las Ramblas 54")
+            } }};
+
+
         public static IUser SignedInUser
         {
             get; set;
@@ -60,10 +69,13 @@ namespace TravelPal.Managers
             return isUserNameValid;
         }
 
+        /*
+         Metod som kollar om det finns en IUser i users listan som har
+        samma användarnamn/lösenord. Om det finns det sätts SignedInUser till den IUsern
+        */
         public static bool SignInUser(string userName, string password)
+
         {
-
-
             foreach (IUser iUser in users)
             {
                 if (userName == iUser.UserName && password == iUser.Password)

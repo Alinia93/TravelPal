@@ -62,10 +62,38 @@ namespace TravelPal
                 DateTime newEndDate = DateTime.Parse(endDate);
                 int convertedNumberOfPassenger = Convert.ToInt32(numberOfPassenger);
 
+
+
+
+
                 if (user.travels == null)
                 {
                     user.travels = new List<Travel>();
                 }
+
+                List<PackingListItem> packingListItems = new();
+
+                foreach (ListBoxItem listBoxItem in lstPackingList.Items)
+
+                {
+
+
+                    if (listBoxItem.Tag is TravelDocument)
+                    {
+                        TravelDocument newItem = (TravelDocument)listBoxItem.Tag;
+                        packingListItems.Add(newItem);
+                    }
+                    else if (listBoxItem.Tag is OtherItem)
+                    {
+                        OtherItem newItem = (OtherItem)listBoxItem.Tag;
+                        packingListItems.Add(newItem);
+                    }
+
+
+
+                }
+
+
                 string selectedItem = (string)cmbBWorkTripOrVaccation.SelectedItem;
 
                 if (selectedItem == "Vacation")
@@ -73,14 +101,14 @@ namespace TravelPal
                     if (checkBAllInclusive.IsChecked == true)
                     {
 
-                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, true);
+                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, true);
                         user.travels.Add(newVacation);
 
 
                     }
                     else if (checkBAllInclusive.IsChecked == false)
                     {
-                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, false);
+                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, false);
                         user.travels.Add(newVacation);
 
                     }
@@ -90,7 +118,7 @@ namespace TravelPal
                 else if (selectedItem == "Work trip")
                 {
                     string meetingDetails = txtBMeetingDetails.Text;
-                    WorkTrip newWorkTrip = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, meetingDetails);
+                    WorkTrip newWorkTrip = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, meetingDetails);
                     user.travels.Add(newWorkTrip);
                 }
 
@@ -157,7 +185,23 @@ namespace TravelPal
                 }
                 else if (checkBTravelDocuemnt.IsChecked == true)
                 {
-                    bool isREquired;
+
+                    if (checkBRequired.IsChecked == true)
+                    {
+                        TravelDocument newTravelDocument = new(itemToPack, true);
+                        ListBoxItem item = new();
+                        item.Content = $"Item: {newTravelDocument.Name}. Required: Yes";
+                        item.Tag = newTravelDocument;
+                        lstPackingList.Items.Add(item);
+                    }
+                    else if (checkBRequired.IsChecked == false)
+                    {
+                        TravelDocument newTravelDocument = new(itemToPack, false);
+                        ListBoxItem item = new();
+                        item.Content = $"Item: {newTravelDocument.Name}. Required: No";
+                        item.Tag = newTravelDocument;
+                        lstPackingList.Items.Add(item);
+                    }
 
 
                 }
@@ -180,7 +224,7 @@ namespace TravelPal
 
 
 
-            string selectedItem = cmbBCountry.SelectedItem.ToString();
+            string? selectedItem = cmbBCountry.SelectedItem.ToString();
             string userLocation = UserManager.SignedInUser.Location.ToString();
 
             foreach (var euCountry in Enum.GetValues(typeof(EuropeanCountry)))

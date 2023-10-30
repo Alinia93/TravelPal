@@ -6,30 +6,31 @@ namespace TravelPal.Managers
     public static class TravelManager
     {
         public static Travel CurrentTravel { get; set; }
+        public static List<Travel> allTravels;
 
+        public static List<Travel> GetAllTravels()
+        {
+            List<Travel> travelsList = new();
+            for (int i = 0; i < UserManager.users.Count; i++)
+            {
+                if (UserManager.users[i].GetType() == typeof(User))
+                {
+                    User newUser = (User)UserManager.users[i];
+                    for (int j = 0; j < newUser.travels.Count; j++)
+                    {
+                        travelsList.Add(newUser.travels[j]);
+                    }
+                }
+            }
+            return travelsList;
+
+        }
         public static void DetailsTravel(Travel travel)
         {
             CurrentTravel = travel;
         }
-        public static List<Travel> GetAllTravels()
-        {
-            foreach (IUser iUser in UserManager.users)
-            {
-                if (iUser.GetType() == typeof(User))
-                {
-                    List<Travel> allTravels = new();
-                    User newUser = (User)iUser;
 
-                    foreach (Travel travel in newUser.travels)
-                    {
-                        allTravels.Add(travel);
-                    }
-                    return allTravels;
-                }
 
-            }
-            return null;
-        }
 
         public static void AddTravel(Travel travel)
         {
@@ -51,6 +52,23 @@ namespace TravelPal.Managers
                     }
                 }
 
+            }
+            else if (UserManager.SignedInUser.GetType() == typeof(Admin))
+            {
+                for (int i = 0; i < UserManager.users.Count; i++)
+                {
+                    if (UserManager.users[i].GetType() == typeof(User))
+                    {
+                        User newUser = (User)UserManager.users[i];
+                        for (int j = 0; j < newUser.travels.Count; j++)
+                        {
+                            if (travel == newUser.travels[j])
+                            {
+                                newUser.travels.RemoveAt(j);
+                            }
+                        }
+                    }
+                }
             }
         }
     }

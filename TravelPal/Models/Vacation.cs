@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TravelPal.Models
 {
@@ -7,7 +8,7 @@ namespace TravelPal.Models
 
         public bool AllInclusive { get; set; }
 
-        public Vacation(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays, bool allInclusive) : base(destination, country, travelers, startDate, endDate, travelDays)
+        public Vacation(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays, List<PackingListItem> packingListItem, bool allInclusive) : base(destination, country, travelers, startDate, endDate, travelDays, packingListItem)
         {
             AllInclusive = allInclusive;
         }

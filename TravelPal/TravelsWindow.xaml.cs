@@ -107,5 +107,10 @@ namespace TravelPal
             mainWindow.Show();
             Close();
         }
+
+        private void btnInfoAboutTravelPal_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Travel Pal is the perfect application for people that travels a lot. Regardless if you travel within your work or if you are going on a relaxing vacation. Travel Pal helps you to plan your travel! ", "INFO ABOUT US");
+        }
     }
 }

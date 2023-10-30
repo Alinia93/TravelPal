@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using TravelPal.Managers;
 using TravelPal.Models;
 
@@ -22,6 +23,24 @@ namespace TravelPal
             txtBEndDate.Text = travel.EndDate.ToShortDateString();
             txtBNumberOfTravelers.Text = travel.Travelers.ToString();
             txtBTravelDays.Text = $" Days: {travel.TravelDays.ToString()}";
+
+            foreach (PackingListItem packingListItem in travel.PackingList)
+            {
+                if (packingListItem.GetType() == typeof(TravelDocument))
+                {
+                    TravelDocument travelDocument = (TravelDocument)packingListItem;
+                    ListBoxItem item = new();
+                    item.Content = $"Item: {travelDocument.Name}.Required: {travelDocument.Required}";
+                    lstPackingList.Items.Add(item);
+                }
+                else
+                {
+                    OtherItem otherItem = (OtherItem)packingListItem;
+                    ListBoxItem item = new();
+                    item.Content = $"Item: {otherItem.Name}. Quantity: {otherItem.Quantity}";
+                    lstPackingList.Items.Add(item);
+                }
+            }
 
             if (travel.GetType() == typeof(Vacation))
 

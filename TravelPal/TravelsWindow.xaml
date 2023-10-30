@@ -34,7 +34,7 @@
         <Button Name="btnUserDetails" Grid.Column="1" Grid.Row="2" Margin="20,10" Content="User Details" Click="btnUserDetails_Click"/>
         <Button Name="btnInfoAboutTravel" Grid.Column="2" Grid.Row="6" Content="Info about travel" Margin="50,10,10,10" Click="btnInfoAboutTravel_Click"/>
         <Button Name="btnRemoveTravel" Grid.Column="3" Grid.Row="6" Content="Remove travel" Margin="7,10,50,10" Click="btnRemoveTravel_Click"/>
-        <Button Name="btnInfoAboutTravelPal" Grid.Column="1" Grid.Row="1" Margin="20,10" Content="Info about TravelPal" />
+        <Button Name="btnInfoAboutTravelPal" Grid.Column="1" Grid.Row="1" Margin="20,10" Content="Info about TravelPal" Click="btnInfoAboutTravelPal_Click" />
         <Button Name="btnAddTravel" Grid.Column="1" Grid.Row="4" Grid.RowSpan="2" Background="LightBlue" Margin="20,10" Content="Add travel" FontSize="20" Foreground="White" Click="btnAddTravel_Click"/>
         <Button Name="btnSignOut" Grid.Column="4" Grid.Row="6"  Content="Sign out" Margin="50,10" Background="LightGray" Click="btnSignOut_Click"/>
        

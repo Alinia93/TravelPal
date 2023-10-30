@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TravelPal.Models
 {
@@ -7,9 +8,10 @@ namespace TravelPal.Models
         public string MeetingDetails { get; set; }
 
 
-        public WorkTrip(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays, string meetingDetails) : base(destination, country, travelers, startDate, endDate, travelDays)
+        public WorkTrip(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays, List<PackingListItem> packingListItem, string meetingDetails) : base(destination, country, travelers, startDate, endDate, travelDays, packingListItem)
         {
             MeetingDetails = meetingDetails;
+
         }
 
         public override string GetInfo()
