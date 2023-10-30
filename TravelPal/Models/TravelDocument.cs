@@ -14,7 +14,19 @@
 
         public string GetInfo()
         {
-            return null;
+            // Använder denna variabel istället för true/false
+            string yesOrNo;
+
+            if (Required == true)
+            {
+                yesOrNo = "Yes";
+            }
+            else
+            {
+                yesOrNo = "No";
+            }
+
+            return $" Item: {Name}. Required: {yesOrNo}";
         }
     }
 }

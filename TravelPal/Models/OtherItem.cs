@@ -14,7 +14,9 @@
 
         public string GetInfo()
         {
-            return null;
+
+            return $"Item: {Name}. Quantity: {Quantity}";
+
         }
     }
 }

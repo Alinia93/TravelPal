@@ -22,9 +22,11 @@ namespace TravelPal.Managers
             get; set;
         }
 
+        /*Metod som tar emot en IUser. Skickar user name till ValidateUserName. 
+         om ValidateUserName är true. Skapar den en User och lägger till i users listan
+         */
         public static bool AddUser(IUser user)
         {
-
             bool IsAddUser = true;
             if (ValidateUserName(user.UserName))
             {
@@ -37,7 +39,6 @@ namespace TravelPal.Managers
                 IsAddUser = false;
             }
             return IsAddUser;
-
         }
 
         public static void RemoveUser(IUser iUser)
@@ -68,6 +69,9 @@ namespace TravelPal.Managers
 
             return isUserNameValid;
         }
+
+
+
 
         /*
          Metod som kollar om det finns en IUser i users listan som har

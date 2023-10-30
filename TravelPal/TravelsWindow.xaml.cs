@@ -14,6 +14,13 @@ namespace TravelPal
         {
             InitializeComponent();
 
+            txtBWelcomeUser.Text = $"Welcome {UserManager.SignedInUser.UserName}";
+            if (UserManager.SignedInUser.GetType() == typeof(Admin))
+            {
+                txtYourTravels.Content = "All users travels:";
+                btnAddTravel.IsEnabled = false;
+            }
+
             UpdateUI();
 
 
@@ -31,6 +38,10 @@ namespace TravelPal
                 travelDetailsWindow.Show();
                 Close();
             }
+            else
+            {
+                MessageBox.Show("You must select a travel to see details!", "Warning");
+            }
         }
 
         private void btnAddTravel_Click(object sender, RoutedEventArgs e)
@@ -42,28 +53,33 @@ namespace TravelPal
 
         private void btnUserDetails_Click(object sender, RoutedEventArgs e)
         {
-
-
             UserDetailsWindow userDetailsWindow = new();
             userDetailsWindow.Show();
             Close();
         }
 
         private void btnRemoveTravel_Click(object sender, RoutedEventArgs e)
-
         {
-            ListBoxItem item = (ListBoxItem)lstTravels.SelectedItem;
+            if (lstTravels.SelectedIndex != -1)
+            {
+                ListBoxItem item = (ListBoxItem)lstTravels.SelectedItem;
 
-            Travel travel = (Travel)item.Tag;
-
-            TravelManager.RemoveTravel(travel);
-            UpdateUI();
+                Travel travel = (Travel)item.Tag;
+                TravelManager.RemoveTravel(travel);
+                UpdateUI();
+            }
+            else
+            {
+                MessageBox.Show("You have to select a travel to remove it!", "Warning");
+            }
         }
 
 
         public void UpdateUI()
         {
+            //Rensa listan med travels
             lstTravels.Items.Clear();
+
             IUser signedInUser = UserManager.SignedInUser;
 
             if (signedInUser.GetType() == typeof(User))
@@ -72,14 +88,12 @@ namespace TravelPal
 
                 if (user.travels != null)
                 {
-                    txtBWelcomeUser.Text = $"Welcome {user.UserName}";
-
                     int number = 1;
 
                     foreach (Travel travel in user.travels)
                     {
                         ListBoxItem item = new();
-                        item.Content = $"{number}. Destination: {travel.Country}";
+                        item.Content = $"{number}. {travel.GetInfo()}";
                         item.Tag = travel;
 
                         lstTravels.Items.Add(item);
@@ -92,7 +106,7 @@ namespace TravelPal
                 foreach (Travel travel in TravelManager.GetAllTravels())
                 {
                     ListBoxItem item = new();
-                    item.Content = travel.Destination;
+                    item.Content = travel.GetInfo();
                     item.Tag = travel;
                     lstTravels.Items.Add(item);
                 }

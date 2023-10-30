@@ -13,19 +13,15 @@ namespace TravelPal
         public RegisterWindow()
         {
             InitializeComponent();
-
+            // Fyller combobox med länder från Enum - Country 
             foreach (var country in Enum.GetValues(typeof(Country)))
             {
-
-
                 cmbBCountry.Items.Add(country);
             }
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-
-
             string userName = txtBUserName.Text;
             string passWord = txtBPassword.Password;
 
@@ -33,20 +29,14 @@ namespace TravelPal
             {
                 if (userName.Length > 3)
                 {
-
-
                     Country country = (Country)cmbBCountry.SelectedItem;
 
                     User newUser = new(userName, passWord, country);
 
-                    bool isValidUserName = UserManager.AddUser(newUser);
-
-                    if (isValidUserName)
+                    if (UserManager.AddUser(newUser))
                     {
                         MessageBox.Show("Registration succeded!");
-                        MainWindow mainWindow = new();
-                        mainWindow.Show();
-                        Close();
+                        GoBackToMainWindow();
                     }
                     else
                     {
@@ -70,6 +60,12 @@ namespace TravelPal
         }
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            GoBackToMainWindow();
+        }
+
+        //Metod som hoppar till Main Window och stänger Registration Window
+        public void GoBackToMainWindow()
         {
             MainWindow mainWindow = new();
             mainWindow.Show();

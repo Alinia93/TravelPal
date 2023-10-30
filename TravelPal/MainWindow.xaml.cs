@@ -28,7 +28,7 @@ namespace TravelPal
             string userName = txtBUserName.Text;
             string password = txtBPassword.Password;
 
-            // Skickar användarnamn och lösen till metod i UserManager. 
+            // Skickar användarnamn och lösenord till metod - SignInUser i UserManager 
 
             bool isUserSignedIn = UserManager.SignInUser(userName, password);
 
