@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TravelPal.Models;
 
 namespace TravelPal.Managers
 {
     public static class TravelManager
     {
-        public static Travel CurrentTravel { get; set; }
-        public static List<Travel> allTravels;
+
+
 
         public static List<Travel> GetAllTravels()
         {
@@ -24,10 +25,6 @@ namespace TravelPal.Managers
             }
             return travelsList;
 
-        }
-        public static void DetailsTravel(Travel travel)
-        {
-            CurrentTravel = travel;
         }
 
 
@@ -61,22 +58,40 @@ namespace TravelPal.Managers
             else if (UserManager.SignedInUser.GetType() == typeof(Admin))
             {
                 //Loopa igenom alla IUsers
-                for (int i = 0; i < UserManager.users.Count; i++)
+
+                foreach (IUser iuser in UserManager.users)
                 {
-                    if (UserManager.users[i].GetType() == typeof(User))
+                    if (iuser.GetType() == typeof(User))
                     {
-                        User newUser = (User)UserManager.users[i];
+                        User user = (User)iuser;
                         //Loopa igenom travels på usern 
-                        for (int j = 0; j < newUser.travels.Count; j++)
+
+                        for (int j = 0; j < user.travels.Count; j++)
                         {
-                            if (travel == newUser.travels[j])
+                            if (travel == user.travels[j])
                             {
-                                newUser.travels.RemoveAt(j);
+                                user.travels.RemoveAt(j);
                             }
                         }
                     }
                 }
             }
+
+
+        }
+
+        //Metod för att validera input EndDate,StartDate
+        public static bool ValidateStartDateAndEndDate(string number, out DateTime result)
+        {
+            bool IsStartOrEndTimeValid;
+            return IsStartOrEndTimeValid = DateTime.TryParse(number, out result);
+        }
+
+        //Metod för att valuera om användaren skrivit en siffra på number of travelers
+        public static bool ValidateNumber(string number, out int result)
+        {
+            bool isNumbervalid;
+            return isNumbervalid = int.TryParse(number, out result);
         }
     }
 }

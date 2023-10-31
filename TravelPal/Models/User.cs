@@ -13,7 +13,7 @@ namespace TravelPal.Models
             UserName = userName;
             Password = password;
             Location = location;
-
+            travels = new List<Travel>();
         }
 
 

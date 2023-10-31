@@ -4,9 +4,9 @@
     {
         public string Name { get; set; }
 
-        public int Quantity { get; set; } = 1;
+        public int Quantity { get; set; };
 
-        public OtherItem(string name, int quantity)
+        public OtherItem(string name, int quantity = 1)
         {
             Name = name;
             Quantity = quantity;

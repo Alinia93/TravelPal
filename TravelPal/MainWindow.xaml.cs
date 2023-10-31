@@ -11,6 +11,7 @@ namespace TravelPal
         public MainWindow()
         {
             InitializeComponent();
+            UpdateIsSignUpButtonEnabled();
         }
 
         private void btnRegister_Click(object sender, RoutedEventArgs e)
@@ -44,6 +45,23 @@ namespace TravelPal
                 txtBPassword.Password = "";
                 txtBUserName.Text = "";
             }
+        }
+
+        private void txtBUserName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            UpdateIsSignUpButtonEnabled();
+        }
+
+        private void txtBPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateIsSignUpButtonEnabled();
+        }
+        //Metod för att sign up button inte ska enabled innan man fyllt i password/user name
+        private void UpdateIsSignUpButtonEnabled()
+        {
+            bool hasPassword = !string.IsNullOrWhiteSpace(txtBPassword.Password);
+            bool hasUserName = !string.IsNullOrWhiteSpace(txtBUserName.Text);
+            btnSignIn.IsEnabled = hasPassword && hasUserName;
         }
     }
 }

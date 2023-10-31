@@ -29,12 +29,12 @@ namespace TravelPal
 
         private void btnInfoAboutTravel_Click(object sender, RoutedEventArgs e)
         {
-            if (lstTravels.SelectedIndex != -1)
+            Travel selectedTravel = GetSelectedTravel();
+            if (selectedTravel != null)
             {
-                ListBoxItem item = (ListBoxItem)lstTravels.SelectedItem;
-                Travel travel = (Travel)item.Tag;
 
-                TravelDetailsWindow travelDetailsWindow = new(travel);
+
+                TravelDetailsWindow travelDetailsWindow = new(selectedTravel);
                 travelDetailsWindow.Show();
                 Close();
             }
@@ -58,14 +58,23 @@ namespace TravelPal
             Close();
         }
 
-        private void btnRemoveTravel_Click(object sender, RoutedEventArgs e)
+        private Travel GetSelectedTravel()
         {
             if (lstTravels.SelectedIndex != -1)
             {
                 ListBoxItem item = (ListBoxItem)lstTravels.SelectedItem;
 
-                Travel travel = (Travel)item.Tag;
-                TravelManager.RemoveTravel(travel);
+                return (Travel)item.Tag;
+            }
+            else
+                return null;
+        }
+        private void btnRemoveTravel_Click(object sender, RoutedEventArgs e)
+        {
+            Travel selectedTravel = GetSelectedTravel();
+            if (selectedTravel != null)
+            {
+                TravelManager.RemoveTravel(selectedTravel);
                 UpdateUI();
             }
             else
@@ -86,20 +95,18 @@ namespace TravelPal
             {
                 User user = (User)signedInUser;
 
-                if (user.travels != null)
+                int number = 1;
+
+                foreach (Travel travel in user.travels)
                 {
-                    int number = 1;
+                    ListBoxItem item = new();
+                    item.Content = $"{number}. {travel.GetInfo()}";
+                    item.Tag = travel;
 
-                    foreach (Travel travel in user.travels)
-                    {
-                        ListBoxItem item = new();
-                        item.Content = $"{number}. {travel.GetInfo()}";
-                        item.Tag = travel;
-
-                        lstTravels.Items.Add(item);
-                        number++;
-                    }
+                    lstTravels.Items.Add(item);
+                    number++;
                 }
+
             }
             else if (signedInUser.GetType() == typeof(Admin))
             {

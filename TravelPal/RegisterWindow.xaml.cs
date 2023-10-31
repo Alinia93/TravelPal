@@ -13,6 +13,8 @@ namespace TravelPal
         public RegisterWindow()
         {
             InitializeComponent();
+            UpdateIsEnabledButtonRegister();
+
             // Fyller combobox med länder från Enum - Country 
             foreach (var country in Enum.GetValues(typeof(Country)))
             {
@@ -25,38 +27,38 @@ namespace TravelPal
             string userName = txtBUserName.Text;
             string passWord = txtBPassword.Password;
 
-            if (userName != "" && passWord != "" && cmbBCountry.SelectedIndex != -1)
+
+
+            if (userName.Length <= 3)
             {
-                if (userName.Length > 3)
-                {
-                    Country country = (Country)cmbBCountry.SelectedItem;
+                MessageBox.Show("Your user name have to be more than 3 signs");
+                return;
+            }
 
-                    User newUser = new(userName, passWord, country);
+            Country country = (Country)cmbBCountry.SelectedItem;
 
-                    if (UserManager.AddUser(newUser))
-                    {
-                        MessageBox.Show("Registration succeded!");
-                        GoBackToMainWindow();
-                    }
-                    else
-                    {
-                        MessageBox.Show("The user name is occupied. Try again!", "Warning");
-                        txtBUserName.Text = "";
-                        txtBPassword.Password = "";
+            User newUser = new(userName, passWord, country);
 
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Your user name have to be more than 3 signs");
-                }
+            if (UserManager.AddUser(newUser))
+            {
+                MessageBox.Show("Registration succeded!");
+                GoBackToMainWindow();
             }
             else
             {
-                MessageBox.Show("You have to fill in user name, password and your location!");
-
+                MessageBox.Show("The user name is occupied. Try again!", "Warning");
+                txtBUserName.Text = "";
+                txtBPassword.Password = "";
 
             }
+        }
+        private void UpdateIsEnabledButtonRegister()
+        {
+            bool hasUserName = (!string.IsNullOrWhiteSpace(txtBUserName.Text));
+            bool hasPassword = (!string.IsNullOrWhiteSpace(txtBPassword.Password));
+            bool hasSelectCountry = cmbBCountry.SelectedIndex >= 0;
+
+            btnRegister.IsEnabled = hasUserName && hasPassword && hasSelectCountry;
         }
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
@@ -70,6 +72,21 @@ namespace TravelPal
             MainWindow mainWindow = new();
             mainWindow.Show();
             Close();
+        }
+
+        private void txtBUserName_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+        {
+            UpdateIsEnabledButtonRegister();
+        }
+
+        private void txtBPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            UpdateIsEnabledButtonRegister();
+        }
+
+        private void cmbBCountry_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            UpdateIsEnabledButtonRegister();
         }
     }
 }

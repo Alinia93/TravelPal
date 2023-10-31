@@ -52,81 +52,59 @@ namespace TravelPal
             string startDate = txtBStartDate.Text;
             string endDate = txtBEndDate.Text;
             string numberOfPassenger = txtBNumberOfPassenger.Text;
+
             if (city != "" && startDate != "" && endDate != "" && numberOfPassenger != "" && cmbBCountry.SelectedIndex != -1 && cmbBWorkTripOrVaccation.SelectedIndex != -1)
             {
-
-
                 User user = (User)UserManager.SignedInUser;
                 Country country = (Country)cmbBCountry.SelectedItem;
-                DateTime newStartDate = DateTime.Parse(startDate);
-                DateTime newEndDate = DateTime.Parse(endDate);
-                int convertedNumberOfPassenger = Convert.ToInt32(numberOfPassenger);
-
-
-
-
-
-                if (user.travels == null)
+                if (TravelManager.ValidateStartDateAndEndDate(startDate, out DateTime startDateresult))
                 {
-                    user.travels = new List<Travel>();
-                }
-
-                List<PackingListItem> packingListItems = new();
-
-                foreach (ListBoxItem listBoxItem in lstPackingList.Items)
-
-                {
-
-
-                    if (listBoxItem.Tag is TravelDocument)
+                    DateTime newStartDate = startDateresult;
+                    if (TravelManager.ValidateStartDateAndEndDate(endDate, out DateTime endDateresult))
                     {
-                        TravelDocument newItem = (TravelDocument)listBoxItem.Tag;
-                        packingListItems.Add(newItem);
+                        DateTime newEndDate = endDateresult;
+                        if (TravelManager.ValidateNumber(numberOfPassenger, out int result))
+                        {
+                            int convertedNumberOfPassenger = result;
+                            List<PackingListItem> packingListItems = AddPackingList();
+                            string selectedItem = (string)cmbBWorkTripOrVaccation.SelectedItem;
+
+                            if (selectedItem == "Vacation")
+                            {
+                                bool isAllInclusive = checkBAllInclusive.IsChecked == true;
+
+                                Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, packingListItems, isAllInclusive);
+                                user.travels.Add(newVacation);
+
+                                ;
+                            }
+                            else if (selectedItem == "Work trip")
+                            {
+                                string meetingDetails = txtBMeetingDetails.Text;
+                                WorkTrip newWorkTrip = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, packingListItems, meetingDetails);
+                                user.travels.Add(newWorkTrip);
+
+                            }
+
+                            TravelsWindow travelsWindow = new();
+                            travelsWindow.Show();
+                            Close();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Number of passenger is in wrong format!", "Warning");
+                        }
                     }
-                    else if (listBoxItem.Tag is OtherItem)
+                    else
                     {
-                        OtherItem newItem = (OtherItem)listBoxItem.Tag;
-                        packingListItems.Add(newItem);
-                    }
-
-
-
-                }
-
-
-                string selectedItem = (string)cmbBWorkTripOrVaccation.SelectedItem;
-
-                if (selectedItem == "Vacation")
-                {
-                    if (checkBAllInclusive.IsChecked == true)
-                    {
-
-                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, true);
-                        user.travels.Add(newVacation);
-
-
-                    }
-                    else if (checkBAllInclusive.IsChecked == false)
-                    {
-                        Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, false);
-                        user.travels.Add(newVacation);
-
+                        MessageBox.Show("End Date wrong format.");
                     }
 
-
                 }
-                else if (selectedItem == "Work trip")
+                else
                 {
-                    string meetingDetails = txtBMeetingDetails.Text;
-                    WorkTrip newWorkTrip = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, 0, packingListItems, meetingDetails);
-                    user.travels.Add(newWorkTrip);
+                    MessageBox.Show("Start Date in wrong format");
                 }
-
-
-                TravelsWindow travelsWindow = new();
-                travelsWindow.Show();
-                Close();
-
 
             }
             else
@@ -135,6 +113,40 @@ namespace TravelPal
 
             }
 
+
+
+        }
+
+
+        public List<PackingListItem> AddPackingList()
+        {
+
+            User user = (User)UserManager.SignedInUser;
+            if (user.travels == null)
+            {
+                user.travels = new List<Travel>();
+            }
+
+            List<PackingListItem> packingListItems = new();
+
+            foreach (ListBoxItem listBoxItem in lstPackingList.Items)
+
+            {
+
+
+                if (listBoxItem.Tag is TravelDocument travelDocument)
+                {
+                    packingListItems.Add(travelDocument);
+                }
+                else if (listBoxItem.Tag is OtherItem otherItem)
+                {
+                    packingListItems.Add(otherItem);
+                }
+
+
+
+            }
+            return packingListItems;
 
 
         }
@@ -185,23 +197,15 @@ namespace TravelPal
                 }
                 else if (checkBTravelDocuemnt.IsChecked == true)
                 {
+                    bool isRequired = checkBRequired.IsChecked == true;
 
-                    if (checkBRequired.IsChecked == true)
-                    {
-                        TravelDocument newTravelDocument = new(itemToPack, true);
-                        ListBoxItem item = new();
-                        item.Content = $"Item: {newTravelDocument.Name}. Required: Yes";
-                        item.Tag = newTravelDocument;
-                        lstPackingList.Items.Add(item);
-                    }
-                    else if (checkBRequired.IsChecked == false)
-                    {
-                        TravelDocument newTravelDocument = new(itemToPack, false);
-                        ListBoxItem item = new();
-                        item.Content = $"Item: {newTravelDocument.Name}. Required: No";
-                        item.Tag = newTravelDocument;
-                        lstPackingList.Items.Add(item);
-                    }
+
+                    TravelDocument newTravelDocument = new(itemToPack, isRequired);
+                    ListBoxItem item = new();
+                    item.Content = $"Item: {newTravelDocument.Name}. Required: {newTravelDocument.GetInfo()}";
+                    item.Tag = newTravelDocument;
+                    lstPackingList.Items.Add(item);
+
 
 
                 }
@@ -219,13 +223,9 @@ namespace TravelPal
             bool isPassPortRequired = false;
             bool isSignedInUserLocationEuCountry = false;
             bool isSelectedItemEuCountry = false;
-
-
-
-
-
             string? selectedItem = cmbBCountry.SelectedItem.ToString();
             string userLocation = UserManager.SignedInUser.Location.ToString();
+
 
             foreach (var euCountry in Enum.GetValues(typeof(EuropeanCountry)))
             {

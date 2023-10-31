@@ -5,16 +5,14 @@ namespace TravelPal.Models
 {
     public class Travel
     {
-
-        int x;
         public string Destination { get; set; }
         public Country Country { get; set; }
         public int Travelers { get; set; }
         public List<PackingListItem> PackingList { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public int TravelDays { set { x = CalculateTravelDays(); } get { return x; } }
-        public Travel(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, int travelDays, List<PackingListItem> packingListItem)
+        public int TravelDays { get { return CalculateTravelDays(); } }
+        public Travel(string destination, Country country, int travelers, DateTime startDate, DateTime endDate, List<PackingListItem> packingListItem)
         {
             Destination = destination;
             Country = country;
@@ -22,7 +20,6 @@ namespace TravelPal.Models
 
             StartDate = startDate;
             EndDate = endDate;
-            TravelDays = travelDays;
             PackingList = packingListItem;
 
         }

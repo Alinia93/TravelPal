@@ -11,21 +11,23 @@ namespace TravelPal
     /// </summary>
     public partial class TravelDetailsWindow : Window
     {
+        Travel _travel;
         public TravelDetailsWindow(Travel travel)
         {
             InitializeComponent();
 
-            TravelManager.DetailsTravel(travel);
-
-            txtBCity.Text = travel.Destination;
-            txtBCountry.Text = travel.Country.ToString();
-            txtBStartDate.Text = travel.StartDate.ToShortDateString();
-            txtBEndDate.Text = travel.EndDate.ToShortDateString();
-            txtBNumberOfTravelers.Text = travel.Travelers.ToString();
-            txtBTravelDays.Text = $" Days: {travel.TravelDays.ToString()}";
 
 
-            foreach (PackingListItem packingListItem in travel.PackingList)
+            _travel = travel;
+            txtBCity.Text = _travel.Destination;
+            txtBCountry.Text = _travel.Country.ToString();
+            txtBStartDate.Text = _travel.StartDate.ToShortDateString();
+            txtBEndDate.Text = _travel.EndDate.ToShortDateString();
+            txtBNumberOfTravelers.Text = _travel.Travelers.ToString();
+            txtBTravelDays.Text = $" Days: {_travel.TravelDays.ToString()}";
+
+
+            foreach (PackingListItem packingListItem in _travel.PackingList)
             {
 
                 ListBoxItem item = new();
@@ -33,10 +35,10 @@ namespace TravelPal
                 lstPackingList.Items.Add(item);
             }
 
-            if (travel.GetType() == typeof(Vacation))
+            if (_travel.GetType() == typeof(Vacation))
 
             {
-                Vacation vacationTravel = (Vacation)travel;
+                Vacation vacationTravel = (Vacation)_travel;
                 txtBTypeOfTravel.Text = "Vacation";
                 txtAllInclusiveOrMeetingDetails.Content = "All Inclusive";
 
@@ -49,9 +51,9 @@ namespace TravelPal
                     txtBMeetingDetailsOrAllInclusive.Text = "No";
                 }
             }
-            else if (travel.GetType() == typeof(WorkTrip))
+            else if (_travel.GetType() == typeof(WorkTrip))
             {
-                WorkTrip workTrip = (WorkTrip)travel;
+                WorkTrip workTrip = (WorkTrip)_travel;
                 txtBTypeOfTravel.Text = "Work Trip";
                 txtAllInclusiveOrMeetingDetails.Content = "Meeting Details";
                 txtBMeetingDetailsOrAllInclusive.Text = workTrip.MeetingDetails;
@@ -82,43 +84,37 @@ namespace TravelPal
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (ValidateCountry())
-            {
-                TravelManager.CurrentTravel.Destination = txtBCity.Text;
-
-                if (ValidateNumber(txtBNumberOfTravelers.Text, out int numberOftravelers))
-                {
-                    TravelManager.CurrentTravel.Travelers = numberOftravelers;
-                    if (ValidateStartTimeAndEndTime(txtBStartDate.Text, out DateTime startDate))
-                    {
-                        TravelManager.CurrentTravel.StartDate = startDate;
-                        if (ValidateStartTimeAndEndTime(txtBEndDate.Text, out DateTime endDate))
-                        {
-                            TravelManager.CurrentTravel.EndDate = endDate;
-                            CheckAllInclusive();
-                            CheckMeetingDetails();
-                        }
-                        else
-                        {
-                            MessageBox.Show("The format on \"End Date\" is wrong. Write in the format: yyyy-mm-dd.", "Warning");
-                        }
-
-                    }
-                    else
-                    {
-                        MessageBox.Show("The format on \"Start Date\" is wrong Write in the format: yyyy-mm-dd", "Warning");
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Number of travelers has to be a number, Try again.");
-                }
-
-            }
-            else
+            if (!ValidateCountry())
             {
                 MessageBox.Show("That country does not seem to exist. Are you sure you spelled it right?");
+                return;
             }
+
+            if (!TravelManager.ValidateNumber(txtBNumberOfTravelers.Text, out int numberOftravelers))
+            {
+                MessageBox.Show("Number of travelers has to be a number, Try again.");
+                return;
+            }
+            if (!TravelManager.ValidateStartDateAndEndDate(txtBStartDate.Text, out DateTime startDate))
+            {
+                MessageBox.Show("The format on \"Start Date\" is wrong Write in the format: yyyy-mm-dd", "Warning");
+                return;
+            }
+            if (!TravelManager.ValidateStartDateAndEndDate(txtBEndDate.Text, out DateTime endDate))
+            {
+                MessageBox.Show("The format on \"End Date\" is wrong. Write in the format: yyyy-mm-dd.", "Warning");
+                return;
+            }
+
+
+            _travel.Destination = txtBCity.Text;
+            _travel.Travelers = numberOftravelers;
+            _travel.StartDate = startDate;
+            _travel.EndDate = endDate;
+            CheckAllInclusive();
+            CheckMeetingDetails();
+
+
         }
 
         public void GoToMainWindow()
@@ -131,9 +127,9 @@ namespace TravelPal
 
         public void CheckMeetingDetails()
         {
-            if (TravelManager.CurrentTravel.GetType() == typeof(WorkTrip))
+            if (_travel.GetType() == typeof(WorkTrip))
             {
-                WorkTrip workTrip = (WorkTrip)TravelManager.CurrentTravel;
+                WorkTrip workTrip = (WorkTrip)_travel;
 
                 workTrip.MeetingDetails = txtBMeetingDetailsOrAllInclusive.Text;
 
@@ -144,9 +140,9 @@ namespace TravelPal
 
         public void CheckAllInclusive()
         {
-            if (TravelManager.CurrentTravel.GetType() == typeof(Vacation))
+            if (_travel.GetType() == typeof(Vacation))
             {
-                Vacation vacation = (Vacation)TravelManager.CurrentTravel;
+                Vacation vacation = (Vacation)_travel;
 
                 if (txtBMeetingDetailsOrAllInclusive.Text == "yes" || txtBMeetingDetailsOrAllInclusive.Text == "Yes")
                 {
@@ -169,12 +165,7 @@ namespace TravelPal
 
         }
 
-        // Metod för att valuera om start/end time är skrivet i rätt format
-        public bool ValidateStartTimeAndEndTime(string number, out DateTime result)
-        {
-            bool IsStartOrEndTimeValid;
-            return IsStartOrEndTimeValid = DateTime.TryParse(number, out result);
-        }
+
 
         //Metod för att validera om det nya skrivna "country" finns i enum Country
         public bool ValidateCountry()
@@ -185,7 +176,7 @@ namespace TravelPal
                 if (country.ToString() == txtBCountry.Text)
                 {
                     Country newCountry = (Country)country;
-                    TravelManager.CurrentTravel.Country = newCountry;
+                    _travel.Country = newCountry;
                     return true;
                 }
 
@@ -194,11 +185,6 @@ namespace TravelPal
             return false;
 
         }
-        //Metod för att valuera om användaren skrivit en siffra på number of travelers
-        public bool ValidateNumber(string number, out int result)
-        {
-            bool isNumbervalid;
-            return isNumbervalid = int.TryParse(number, out result);
-        }
+
     }
 }
