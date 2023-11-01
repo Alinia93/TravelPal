@@ -124,6 +124,7 @@ namespace TravelPal
 
         private void btnSignOut_Click(object sender, RoutedEventArgs e)
         {
+            UserManager.SignOutUser();
             MainWindow mainWindow = new();
             mainWindow.Show();
             Close();

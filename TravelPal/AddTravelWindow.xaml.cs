@@ -245,6 +245,7 @@ namespace TravelPal
                 TravelDocument newTravelDocument = new("Passport", false);
                 ListBoxItem item = new();
                 item.Content = newTravelDocument.GetInfo();
+
                 item.Tag = newTravelDocument;
                 lstPackingList.Items.Add(item);
             }

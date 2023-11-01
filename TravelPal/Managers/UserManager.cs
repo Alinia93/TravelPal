@@ -38,7 +38,7 @@ namespace TravelPal.Managers
         };
 
 
-        public static IUser SignedInUser
+        public static IUser? SignedInUser
         {
             get; private set;
         }
@@ -59,15 +59,27 @@ namespace TravelPal.Managers
             return hasAddedUser;
         }
 
-        public static bool UpdateUserName(IUser iUser, string hej)
+        public static bool UpdateUserName(IUser user)
         {
+            if (ValidateUserName(user.UserName))
+            {
+                SignedInUser.UserName = user.UserName;
+                SignedInUser.Password = user.Password;
+                SignedInUser.Location = user.Location;
+                return true;
+            }
             return false;
+
         }
 
         private static bool ValidateUserName(string userName)
         {
             foreach (IUser user in users)
             {
+                if (user.UserName == SignedInUser.UserName)
+                {
+                    continue;
+                }
                 if (userName == user.UserName)
                 {
                     return false;
@@ -85,6 +97,7 @@ namespace TravelPal.Managers
         {
             foreach (IUser iUser in users)
             {
+
                 if (userName == iUser.UserName && password == iUser.Password)
                 {
                     SignedInUser = iUser;
@@ -92,6 +105,11 @@ namespace TravelPal.Managers
                 }
             }
             return false;
+        }
+
+        public static void SignOutUser()
+        {
+            SignedInUser = null;
         }
     }
 }

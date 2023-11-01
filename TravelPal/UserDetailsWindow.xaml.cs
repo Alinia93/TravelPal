@@ -14,59 +14,61 @@ namespace TravelPal
         {
             InitializeComponent();
 
-            txtUserName.Content = UserManager.SignedInUser.UserName;
+            txtBNewUserName.Text = UserManager.SignedInUser.UserName;
 
-            foreach (var country in Enum.GetValues(typeof(Country)))
-            {
-                cmbBChangeCountry.Items.Add(country);
-            }
+            Country signedInUserCountry = UserManager.SignedInUser.Location;
+
+            cmbBChangeCountry.Items.Add(signedInUserCountry);
+            cmbBChangeCountry.SelectedItem = signedInUserCountry;
 
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (txtBNewUserName.Text != "")
+
+
+            if (txtBNewPassword.Visibility == Visibility.Hidden)
             {
-                bool isUserNameValid = ValidateUserName(txtBNewUserName.Text);
-                if (isUserNameValid)
+                User user = new(txtBNewUserName.Text, UserManager.SignedInUser.Password, (Country)cmbBChangeCountry.SelectedItem);
+                if (UserManager.UpdateUserName(user))
                 {
-                    UserManager.SignedInUser.UserName = txtBNewUserName.Text;
-                    MessageBox.Show("Saved!");
-                    TravelsWindow travelsWindow = new();
-                    travelsWindow.Show();
-                    Close();
+                    MessageBox.Show("Your changes has been saved", "Saved");
+                    GoBack();
                 }
                 else
                 {
-                    MessageBox.Show("User name is occupied. Try again");
+                    MessageBox.Show("The user name is occupied. Try Again");
                 }
             }
-
-            if (txtBNewPassword.Text != "")
+            else if (txtBNewPassword.Visibility == Visibility.Visible)
             {
-                if (txtBNewPassword.Text == txtBComfirmPassword.Text)
+                if (txtBNewPassword.Text.Length <= 3)
                 {
-                    UserManager.SignedInUser.Password = txtBComfirmPassword.Text;
-                    MessageBox.Show("Saved!");
-                    TravelsWindow travelsWindow = new();
-                    travelsWindow.Show();
-                    Close();
+                    MessageBox.Show("Your password must be longer than 3 signs");
+                    return;
+                }
+                if (txtBNewPassword.Text != txtBComfirmPassword.Text)
+                {
+                    MessageBox.Show(" \"New password\" and \"Comfirm password\" does not match");
+                    return;
+                }
+
+                User user = new(txtBNewUserName.Text, txtBComfirmPassword.Text, (Country)cmbBChangeCountry.SelectedItem);
+                if (UserManager.UpdateUserName(user))
+                {
+                    MessageBox.Show("Your changes has been saved", "Saved");
+                    GoBack();
                 }
                 else
                 {
-                    MessageBox.Show("You have not written the same password in \"New password\" and \"Comfirm password\"");
+                    MessageBox.Show("The user name is occupied. Try Again");
                 }
+
             }
 
-            if (cmbBChangeCountry.SelectedIndex != -1)
-            {
-                Country country = (Country)cmbBChangeCountry.SelectedItem;
-                UserManager.SignedInUser.Location = country;
-                MessageBox.Show("Saved!");
-                TravelsWindow travelsWindow = new();
-                travelsWindow.Show();
-                Close();
-            }
+
+
+
 
 
 
@@ -74,25 +76,39 @@ namespace TravelPal
         }
 
 
-        public bool ValidateUserName(string userName)
-        {
-            foreach (IUser iUser in UserManager.users)
-            {
 
-                if (userName == UserManager.SignedInUser.UserName)
-                {
-                    continue;
-                }
-
-                if (userName == iUser.UserName)
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            GoBack();
+        }
+
+        private void btnChangeUserName_Click(object sender, RoutedEventArgs e)
+        {
+            txtUserName.Content = "New user name:";
+            txtBNewUserName.Text = "";
+            txtBNewUserName.IsReadOnly = false;
+        }
+
+        private void btnChangePassword_Click(object sender, RoutedEventArgs e)
+        {
+            txtNewPassword.Visibility = Visibility.Visible;
+            txtComfirmNewPassword.Visibility = Visibility.Visible;
+            txtBNewPassword.Visibility = Visibility.Visible;
+            txtBComfirmPassword.Visibility = Visibility.Visible;
+        }
+
+        private void btnChangeCoutnry_Click(object sender, RoutedEventArgs e)
+        {
+            txtChangeCountry.Visibility = Visibility.Visible;
+            cmbBChangeCountry.IsReadOnly = false;
+
+            foreach (var country in Enum.GetValues(typeof(Country)))
+            {
+                cmbBChangeCountry.Items.Add(country);
+            }
+        }
+        public void GoBack()
         {
             TravelsWindow travelsWindow = new();
             travelsWindow.Show();
