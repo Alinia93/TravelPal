@@ -15,6 +15,8 @@ namespace TravelPal
             InitializeComponent();
 
             txtBWelcomeUser.Text = $"Welcome {UserManager.SignedInUser.UserName}";
+
+
             if (UserManager.SignedInUser.GetType() == typeof(Admin))
             {
                 txtYourTravels.Content = "All users travels:";
@@ -29,11 +31,11 @@ namespace TravelPal
 
         private void btnInfoAboutTravel_Click(object sender, RoutedEventArgs e)
         {
+            //Hämtar selected travel 
             Travel selectedTravel = GetSelectedTravel();
             if (selectedTravel != null)
             {
-
-
+                //Skickar selected travel till travelDetails Window
                 TravelDetailsWindow travelDetailsWindow = new(selectedTravel);
                 travelDetailsWindow.Show();
                 Close();
@@ -58,6 +60,7 @@ namespace TravelPal
             Close();
         }
 
+        //Metod som returnerar selected travel 
         private Travel GetSelectedTravel()
         {
             if (lstTravels.SelectedIndex != -1)
@@ -74,6 +77,7 @@ namespace TravelPal
             Travel selectedTravel = GetSelectedTravel();
             if (selectedTravel != null)
             {
+                //skickar selected travel till RemoveTravel i TravelManager
                 TravelManager.RemoveTravel(selectedTravel);
                 UpdateUI();
             }
@@ -91,12 +95,15 @@ namespace TravelPal
 
             IUser signedInUser = UserManager.SignedInUser;
 
+            // Om SignedInUser är en User 
+
             if (signedInUser.GetType() == typeof(User))
             {
                 User user = (User)signedInUser;
 
                 int number = 1;
 
+                // Loopa igenom travels på SignedInUser och visa info
                 foreach (Travel travel in user.travels)
                 {
                     ListBoxItem item = new();
@@ -108,8 +115,10 @@ namespace TravelPal
                 }
 
             }
+            // Om SignedInUser är en Admin
             else if (signedInUser.GetType() == typeof(Admin))
             {
+                //Anropa metod i TravelManager och få en lista med alla travels från Users
                 foreach (Travel travel in TravelManager.GetAllTravels())
                 {
                     ListBoxItem item = new();

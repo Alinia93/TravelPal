@@ -31,7 +31,12 @@ namespace TravelPal
 
             if (userName.Length <= 3)
             {
-                MessageBox.Show("Your user name have to be more than 3 signs");
+                MessageBox.Show("Your user name must be at least 4 characters long");
+                return;
+            }
+            if (passWord.Length <= 5)
+            {
+                MessageBox.Show("Your password must be at least 6 characters long");
                 return;
             }
 

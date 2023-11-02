@@ -84,15 +84,17 @@ namespace TravelPal
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
+
+            //Validera alla input rutor 
             if (!ValidateCountry())
             {
-                MessageBox.Show("That country does not seem to exist. Are you sure you spelled it right?");
+                MessageBox.Show("That country does not seem to exist. Are you sure you spelled it right?", "Warning");
                 return;
             }
 
             if (!TravelManager.ValidateNumber(txtBNumberOfTravelers.Text, out int numberOftravelers))
             {
-                MessageBox.Show("Number of travelers has to be a number, Try again.");
+                MessageBox.Show("Number of travelers has to be a number, Try again.", "Warning");
                 return;
             }
             if (!TravelManager.ValidateStartDateAndEndDate(txtBStartDate.Text, out DateTime startDate))
@@ -119,7 +121,7 @@ namespace TravelPal
 
         public void GoToMainWindow()
         {
-            MessageBox.Show("Your edits are saved.");
+
             TravelsWindow travelsWindow = new();
             travelsWindow.Show();
             Close();
@@ -127,12 +129,15 @@ namespace TravelPal
 
         public void CheckMeetingDetails()
         {
+            //Om travel är en Work Trip 
             if (_travel.GetType() == typeof(WorkTrip))
             {
                 WorkTrip workTrip = (WorkTrip)_travel;
 
+                //spara meetind details på travel
                 workTrip.MeetingDetails = txtBMeetingDetailsOrAllInclusive.Text;
 
+                MessageBox.Show("Your edits are saved", "Saved");
                 GoToMainWindow();
 
             }
@@ -140,19 +145,24 @@ namespace TravelPal
 
         public void CheckAllInclusive()
         {
+            //Om travel är en Vacation
             if (_travel.GetType() == typeof(Vacation))
             {
                 Vacation vacation = (Vacation)_travel;
 
+                // Kolla om input är "Yes or "No" 
                 if (txtBMeetingDetailsOrAllInclusive.Text == "yes" || txtBMeetingDetailsOrAllInclusive.Text == "Yes")
                 {
+                    //Sätt all inclusive på true eller false
                     vacation.AllInclusive = true;
+                    MessageBox.Show("Your edits are saved", "Saved");
                     GoToMainWindow();
 
                 }
                 else if (txtBMeetingDetailsOrAllInclusive.Text == "no" || txtBMeetingDetailsOrAllInclusive.Text == "No")
                 {
                     vacation.AllInclusive = false;
+                    MessageBox.Show("Your edits are saved", "Saved");
                     GoToMainWindow();
 
                 }

@@ -31,6 +31,7 @@ namespace TravelPal
 
         private void cmbBWorkTripOrVaccation_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Metod för att ändra UI om användaren väljer Vacation eller Work Trip 
             string selectedItem = (string)cmbBWorkTripOrVaccation.SelectedItem;
 
             if (selectedItem == "Vacation")
@@ -55,8 +56,8 @@ namespace TravelPal
             string endDate = txtBEndDate.Text;
             string numberOfPassenger = txtBNumberOfPassenger.Text;
 
-
-            if (city == "" && startDate == "" && endDate == "" && numberOfPassenger == "" && cmbBCountry.SelectedIndex == -1 && cmbBWorkTripOrVaccation.SelectedIndex == -1)
+            // Validera användarens input 
+            if (city == "" || startDate == "" || endDate == "" || numberOfPassenger == "" || cmbBCountry.SelectedIndex == -1 || cmbBWorkTripOrVaccation.SelectedIndex == -1)
             {
                 MessageBox.Show("You have not filled in all the required information", "Warning");
                 return;
@@ -64,23 +65,28 @@ namespace TravelPal
             }
             if (!TravelManager.ValidateStartDateAndEndDate(endDate, out DateTime endDateresult))
             {
-                MessageBox.Show("End Date wrong format", "Warning");
+                MessageBox.Show("End Date is in the wrong format. The correct format should be YYYY-MM-DD", "Warning");
                 return;
             }
             if (!TravelManager.ValidateStartDateAndEndDate(startDate, out DateTime startDateresult))
             {
-                MessageBox.Show("Start Date in wrong format", "Warning");
+                MessageBox.Show("Start Date in the wrong format. The correct format should be YY-MM-DD", "Warning");
                 return;
+            }
+            // Kolla så End Date inte är större än Start Date
+            if (endDateresult < startDateresult)
+            {
+                MessageBox.Show("End Date can not be earlier than Start Date");
             }
             if (!TravelManager.ValidateNumber(numberOfPassenger, out int result))
             {
-                MessageBox.Show("Number of passenger is in wrong format!", "Warning");
+                MessageBox.Show("Number of passenger is in the wrong format!", "Warning");
                 return;
             }
 
 
 
-            User user = (User)UserManager.SignedInUser;
+            // Spara alla värden 
             Country country = (Country)cmbBCountry.SelectedItem;
             DateTime newStartDate = startDateresult;
 
@@ -91,19 +97,25 @@ namespace TravelPal
             List<PackingListItem> packingListItems = AddPackingList();
             string selectedItem = (string)cmbBWorkTripOrVaccation.SelectedItem;
 
+            // Om användaren valt Vacation 
             if (selectedItem == "Vacation")
             {
                 bool isAllInclusive = checkBAllInclusive.IsChecked == true;
 
+                // Skapa en ny Vacation 
                 Vacation newVacation = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, packingListItems, isAllInclusive);
-                user.travels.Add(newVacation);
+                //Skicka Vacation till TravelManager AddTravel
+                TravelManager.AddTravel(newVacation);
 
             }
+            // Om användaren valt Work Trip 
             else if (selectedItem == "Work trip")
             {
+                //Skapa ny Work Trip 
                 string meetingDetails = txtBMeetingDetails.Text;
                 WorkTrip newWorkTrip = new(city, country, convertedNumberOfPassenger, newStartDate, newEndDate, packingListItems, meetingDetails);
-                user.travels.Add(newWorkTrip);
+                //Skicka Work Trip till Travel Manager AddTravel 
+                TravelManager.AddTravel(newWorkTrip);
 
             }
 
@@ -115,15 +127,12 @@ namespace TravelPal
 
         public List<PackingListItem> AddPackingList()
         {
-
+            // Metod för att skapa en lista med packingListItems
             User user = (User)UserManager.SignedInUser;
-            if (user.travels == null)
-            {
-                user.travels = new List<Travel>();
-            }
+
 
             List<PackingListItem> packingListItems = new();
-
+            //Loopa igenom Listboxen 
             foreach (ListBoxItem listBoxItem in lstPackingList.Items)
 
             {
@@ -161,9 +170,11 @@ namespace TravelPal
         {
             if (txtBItemToPack.Text != "")
             {
+                //Metod för att skapa PackingListItem och lägga i listbox
                 string itemToPack = txtBItemToPack.Text;
                 int quantity;
 
+                // Om användaren inte väljer quantity så blir det automatiskt 1 
                 if (string.IsNullOrEmpty(txtBQuantity.Text))
                 {
                     quantity = 1;
@@ -182,6 +193,8 @@ namespace TravelPal
                     item.Content = newItem.GetInfo();
                     item.Tag = newItem;
                     lstPackingList.Items.Add(item);
+                    txtBItemToPack.Text = "";
+                    txtBQuantity.Text = "";
 
                 }
                 else if (checkBTravelDocuemnt.IsChecked == true)
@@ -194,7 +207,9 @@ namespace TravelPal
                     item.Content = newTravelDocument.GetInfo();
                     item.Tag = newTravelDocument;
                     lstPackingList.Items.Add(item);
-
+                    txtBItemToPack.Text = "";
+                    checkBTravelDocuemnt.IsChecked = false;
+                    checkBRequired.IsChecked = false;
                 }
 
 
@@ -205,11 +220,14 @@ namespace TravelPal
 
         public bool PassportRequired()
         {
+            //Metod för att kolla om passport är reqired 
             bool isPassPortRequired = false;
 
             string? selectedItem = cmbBCountry.SelectedItem.ToString();
             string userLocation = UserManager.SignedInUser.Location.ToString();
+            // Omvandla Enum med Countries till en lista med strings
             List<string> euCountries = Enum.GetNames(typeof(EuropeanCountry)).ToList();
+            //Om userns location finns i listan med strings men inte selectedItem gör
             if (euCountries.Contains(userLocation) && !(euCountries.Contains(selectedItem)))
             {
                 isPassPortRequired = true;
@@ -228,6 +246,7 @@ namespace TravelPal
 
         private void cmbBCountry_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            //Metod för att automatiskt lägga in pass med antingen required true/false när användaren väljer land
             lstPackingList.Items.Clear();
             bool isPassportRequired = PassportRequired();
 

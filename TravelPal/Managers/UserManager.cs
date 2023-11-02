@@ -21,7 +21,9 @@ namespace TravelPal.Managers
                         new System.DateTime(2023, 01, 12),
                         new List<PackingListItem>
                         {
-                            new OtherItem("Shampoo",2)
+                            new OtherItem("Shampoo",2),
+                            new OtherItem("Jeans",3),
+                            new TravelDocument("Id",true)
                         },
                         true),
                     new WorkTrip("Paris",
@@ -31,9 +33,10 @@ namespace TravelPal.Managers
                         new System.DateTime(2019,04,07),
                         new List<PackingListItem>
                         {
-                            new TravelDocument("Passport",true)
+                            new TravelDocument("Passport",true),
+                            new OtherItem("Book",2)
                         },
-                        "Meeting a client from Berlin at Las Ramblas 54")
+                        "Meeting a client from Berlin at Champs Elysees")
             } }
         };
 
@@ -76,9 +79,16 @@ namespace TravelPal.Managers
         {
             foreach (IUser user in users)
             {
-                if (user.UserName == SignedInUser.UserName)
+
+                if (SignedInUser != null)
                 {
-                    continue;
+                    //Om user name är detsamma som SignedInUser.UserName så hoppas detta över i loopen.
+                    // Detta görs för att metoden ska kunna användas när användaren uppdaterar sina uppgifter.
+                    //Om användaren vill behålla sitt gamla user name ska inte denna metod reagera på att någon redan heter det. 
+                    if (user.UserName == SignedInUser.UserName)
+                    {
+                        continue;
+                    }
                 }
                 if (userName == user.UserName)
                 {

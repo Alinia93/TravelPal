@@ -26,7 +26,7 @@ namespace TravelPal.Models
 
         public virtual string GetInfo()
         {
-            return null;
+            return $"Destination: {Destination}. Country: {Country}";
         }
 
         private int CalculateTravelDays()

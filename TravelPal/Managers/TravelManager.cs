@@ -8,7 +8,7 @@ namespace TravelPal.Managers
     {
 
 
-
+        //Metod som loopar igenom alla users travels och returnerar en lista 
         public static List<Travel> GetAllTravels()
         {
             List<Travel> travelsList = new();
@@ -31,7 +31,8 @@ namespace TravelPal.Managers
 
         public static void AddTravel(Travel travel)
         {
-
+            User user = (User)UserManager.SignedInUser;
+            user.travels.Add(travel);
         }
 
         //Metod för att ta bort en travel från en user. 
