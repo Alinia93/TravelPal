@@ -35,7 +35,7 @@ namespace TravelPal
                     return;
                 }
                 // Skapa ny User och skicka till UserManager UpdateUserName
-                User user = new(txtBNewUserName.Text, UserManager.SignedInUser.Password, (Country)cmbBChangeCountry.SelectedItem);
+                User user = new(txtBNewUserName.Text, UserManager.SignedInUser!.Password, (Country)cmbBChangeCountry.SelectedItem);
                 if (UserManager.UpdateUserName(user))
                 {
                     MessageBox.Show("Your changes has been saved!", "Saved");

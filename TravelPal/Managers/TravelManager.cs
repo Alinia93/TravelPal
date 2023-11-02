@@ -8,7 +8,7 @@ namespace TravelPal.Managers
     {
 
 
-        //Metod som loopar igenom alla users travels och returnerar en lista 
+        //Metod som loopar igenom alla users travels och returnerar en lista med alla travels
         public static List<Travel> GetAllTravels()
         {
             List<Travel> travelsList = new();

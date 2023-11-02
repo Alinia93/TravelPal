@@ -128,7 +128,7 @@ namespace TravelPal
         public List<PackingListItem> AddPackingList()
         {
             // Metod för att skapa en lista med packingListItems
-            User user = (User)UserManager.SignedInUser;
+            User user = (User)UserManager.SignedInUser!;
 
 
             List<PackingListItem> packingListItems = new();

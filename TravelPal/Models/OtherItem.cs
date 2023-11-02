@@ -6,7 +6,7 @@
 
         public int Quantity { get; set; }
 
-        public OtherItem(string name, int quantity = 1)
+        public OtherItem(string name, int quantity)
         {
             Name = name;
             Quantity = quantity;
