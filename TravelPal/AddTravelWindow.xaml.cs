@@ -77,6 +77,7 @@ namespace TravelPal
             if (endDateresult < startDateresult)
             {
                 MessageBox.Show("End Date can not be earlier than Start Date");
+                return;
             }
             if (!TravelManager.ValidateNumber(numberOfPassenger, out int result))
             {
