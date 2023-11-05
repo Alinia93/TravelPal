@@ -26,40 +26,30 @@ namespace TravelPal
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
 
-            // Om användaren inte tryckt på "Change password" 
-            if (txtBNewPassword.Visibility == Visibility.Hidden)
-            {
-                if (txtBNewUserName.Text.Length <= 3)
-                {
-                    MessageBox.Show("Your user name has to be longer than 3 signs", "Warning");
-                    return;
-                }
-                // Skapa ny User och skicka till UserManager UpdateUserName
-                User user = new(txtBNewUserName.Text, UserManager.SignedInUser!.Password, (Country)cmbBChangeCountry.SelectedItem);
-                if (UserManager.UpdateUserName(user))
-                {
-                    MessageBox.Show("Your changes has been saved!", "Saved");
-                    GoBack();
-                }
-                else
-                {
-                    MessageBox.Show("The user name is occupied. Try Again");
-                    return;
-                }
-            }
-            else if (txtBNewPassword.Visibility == Visibility.Visible)
-            {
-                if (txtBNewPassword.Text.Length <= 5)
-                {
-                    MessageBox.Show("Your password must be longer than 5 signs");
-                    return;
-                }
-                if (txtBNewPassword.Text != txtBComfirmPassword.Text)
-                {
-                    MessageBox.Show(" \"New password\" and \"Comfirm password\" does not match");
-                    return;
-                }
 
+
+            if (txtBNewUserName.Text.Length <= 3)
+            {
+                MessageBox.Show("Your user name has to be longer than 3 signs", "Warning");
+                return;
+            }
+
+
+            if (txtBNewPassword.Text.Length <= 5 && txtBNewPassword.Text.Length > 0)
+            {
+                MessageBox.Show("Your password must be longer than 5 signs");
+                return;
+            }
+            if (txtBNewPassword.Text != txtBComfirmPassword.Text)
+            {
+                MessageBox.Show(" \"New password\" and \"Comfirm password\" does not match");
+                return;
+            }
+
+            //Om användaren har skrivit något i newPassword
+            if (!string.IsNullOrEmpty(txtBNewPassword.Text))
+            {
+                //uppdatera användare med nytt password
                 User user = new(txtBNewUserName.Text, txtBComfirmPassword.Text, (Country)cmbBChangeCountry.SelectedItem);
                 if (UserManager.UpdateUserName(user))
                 {
@@ -72,6 +62,21 @@ namespace TravelPal
                 }
 
             }
+            // om användaren inte skrivit något i newPassword
+            if (string.IsNullOrEmpty(txtBNewPassword.Text))
+            {
+                // Uppdatera användaren med sitt gamla lösenord
+                User user = new(txtBNewUserName.Text, UserManager.SignedInUser!.Password, (Country)cmbBChangeCountry.SelectedItem);
+                if (UserManager.UpdateUserName(user))
+                {
+                    MessageBox.Show("Your changes has been saved!", "Saved");
+                    GoBack();
+                }
+                else
+                {
+                    MessageBox.Show("The user name is occupied. Try Again");
+                    return;
+                }
 
 
 
@@ -79,10 +84,10 @@ namespace TravelPal
 
 
 
+
+            }
 
         }
-
-
 
 
         private void btnGoBack_Click(object sender, RoutedEventArgs e)

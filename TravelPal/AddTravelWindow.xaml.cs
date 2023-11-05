@@ -270,6 +270,13 @@ namespace TravelPal
                 lstPackingList.Items.Add(item);
             }
         }
+
+        private void btnGoBack_Click(object sender, RoutedEventArgs e)
+        {
+            TravelsWindow travelsWindow = new();
+            travelsWindow.Show();
+            Close();
+        }
     }
 }
 

@@ -92,6 +92,7 @@ namespace TravelPal
                 return;
             }
 
+
             if (!TravelManager.ValidateNumber(txtBNumberOfTravelers.Text, out int numberOftravelers))
             {
                 MessageBox.Show("Number of travelers has to be a number, Try again.", "Warning");
@@ -105,6 +106,11 @@ namespace TravelPal
             if (!TravelManager.ValidateStartDateAndEndDate(txtBEndDate.Text, out DateTime endDate))
             {
                 MessageBox.Show("The format on \"End Date\" is wrong. Write in the format: yyyy-mm-dd.", "Warning");
+                return;
+            }
+            if (endDate < startDate)
+            {
+                MessageBox.Show("End Date can not be earlier than Start Date");
                 return;
             }
 

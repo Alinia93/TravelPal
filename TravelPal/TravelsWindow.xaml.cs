@@ -141,7 +141,7 @@ namespace TravelPal
 
         private void btnInfoAboutTravelPal_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Travel Pal is the perfect application for people that travels a lot. Regardless if you travel within your work or if you are going on a relaxing vacation. Travel Pal helps you to plan your travel! ", "INFO ABOUT US");
+            MessageBox.Show("Travel Pal is the perfect application for people that travels a lot. Regardless if you travel within your work or if you are going on a relaxing vacation. Travel Pal helps you to plan your travel! Press the \"Add\" button to add a trip and start your journey! ", "INFO ABOUT US");
         }
     }
 }
